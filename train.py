@@ -1,120 +1,138 @@
+import json
 import os
-import numpy as np
-import librosa
-import librosa.display
+import sys
+
 import tensorflow as tf
-from tensorflow.keras.applications import ResNet50
-from tensorflow.keras.models import Model, Sequential
-from tensorflow.keras.layers import Dense, Dropout, Flatten, GlobalAveragePooling2D
-from tensorflow.keras.utils import to_categorical
-import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import LabelEncoder
-import shutil
-
-# Paths
-classification_folder = '/Users/srivatsavkannan/Datasets/BirdSong/classification'
-train_folder = '/Users/srivatsavkannan/Datasets/BirdSong/classification_train'
-test_folder = '/Users/srivatsavkannan/Datasets/BirdSong/classification_test'
-species = ['bewickii', 'cardinalis', 'melodia', 'migratorius', 'polyglottos']
-
-# Parameters
-img_size = (128, 128)
-sampling_rate = 22050
-
-# Function to convert wav to spectrogram image
-def wav_to_spectrogram(file_path):
-    y, sr = librosa.load(file_path, sr=sampling_rate)
-    spectrogram = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
-    spectrogram_db = librosa.power_to_db(spectrogram, ref=np.max)
-    return spectrogram_db
-
-# Create train and test folders
-os.makedirs(train_folder, exist_ok=True)
-os.makedirs(test_folder, exist_ok=True)
-for label in species:
-    os.makedirs(os.path.join(train_folder, label), exist_ok=True)
-    os.makedirs(os.path.join(test_folder, label), exist_ok=True)
-
-# Prepare filenames for splitting
-filenames = []
-for label in species:
-    folder_path = os.path.join(classification_folder, label)
-    for file in os.listdir(folder_path):
-        if file.endswith('.wav'):
-            filenames.append((file, label))  # Keep track of file and label together
-
-# Shuffle and split filenames into train and test sets
-train_files, test_files = train_test_split(filenames, test_size=0.2, random_state=42)
-
-# Distribute files into train and test folders
-for file, label in train_files:
-    src = os.path.join(classification_folder, label, file)
-    dst = os.path.join(train_folder, label, file)
-    shutil.copy(src, dst)
-
-for file, label in test_files:
-    src = os.path.join(classification_folder, label, file)
-    dst = os.path.join(test_folder, label, file)
-    shutil.copy(src, dst)
-
-# Prepare data and labels
-data = []
-labels = []
-
-for label in species:
-    folder_path = os.path.join(classification_folder, label)
-    for file in os.listdir(folder_path):
-        if file.endswith('.wav'):
-            file_path = os.path.join(folder_path, file)
-            spectrogram = wav_to_spectrogram(file_path)
-            spectrogram_resized = tf.image.resize(spectrogram[..., np.newaxis], img_size)
-            spectrogram_3ch = tf.image.grayscale_to_rgb(spectrogram_resized)  # Convert to 3 channels
-            data.append(spectrogram_3ch.numpy())
-            labels.append(label)
-
-# Convert to numpy arrays
-data = np.array(data)
-labels = np.array(labels)
-
-# Encode labels
-label_encoder = LabelEncoder()
-labels_encoded = label_encoder.fit_transform(labels)
-labels_categorical = to_categorical(labels_encoded)
-
-# Split dataset
-X_train, X_test, y_train, y_test = train_test_split(
-    data, labels_categorical, test_size=0.2, random_state=42
+from matplotlib import pyplot as plt
+import numpy as np
+from tensorflow.keras.preprocessing import image_dataset_from_directory
+import seaborn as sns
+from sklearn.metrics import (
+    accuracy_score, precision_score, recall_score, f1_score,
+    classification_report, confusion_matrix
 )
 
-# Load ResNet50 model with pretrained weights
-base_model = ResNet50(weights='imagenet', include_top=False, input_shape=(img_size[0], img_size[1], 3))
-for layer in base_model.layers:
-    layer.trainable = False
+# Define constants
+print(tf.config.list_physical_devices('GPU'))
+print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-# Build the model
-x = base_model.output
-x = GlobalAveragePooling2D()(x)
-x = Dense(128, activation='relu')(x)
-x = Dropout(0.3)(x)
-predictions = Dense(len(species), activation='softmax')(x)
-model = Model(inputs=base_model.input, outputs=predictions)
+train_dir = "/Users/srivatsavkannan/Datasets/Bird Sound/Dataset_Curated_Balanced_Split_Converted/train"
+val_dir = "/Users/srivatsavkannan/Datasets/Bird Sound/Dataset_Curated_Balanced_Split_Converted/val"
 
-# Compile model
-model.compile(optimizer='adam', loss='categorical_crossentropy', metrics=['accuracy'])
+IMAGE_SIZE = (256, 256)
+BATCH_SIZE = 16
+EPOCHS = 20
+AUTOTUNE = tf.data.experimental.AUTOTUNE
+class_names = sorted(os.listdir(train_dir))[1:]
+print(class_names)
+print(len(class_names))
 
-early_stop = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=100, mode='max',
-                                               restore_best_weights=True)
-# Train model
-history = model.fit(X_train, y_train, epochs=20, batch_size=16, validation_data=(X_test, y_test), callbacks=[early_stop])
-model.save('bird1.h5')
+train_ds = image_dataset_from_directory(
+    train_dir,
+    seed=123,
+    class_names=class_names,
+    image_size=IMAGE_SIZE,
+    batch_size=BATCH_SIZE)
 
-# Evaluate model
-eval_result = model.evaluate(X_test, y_test)
-print(f"Test Accuracy: {eval_result[1] * 100:.2f}%")
+val_ds = image_dataset_from_directory(
+    val_dir,
+    seed=123,
+    class_names=class_names,
+    image_size=IMAGE_SIZE,
+    batch_size=BATCH_SIZE)
 
-# Plot training history
-plt.plot(history.history['accuracy'], label='Train Accuracy')
-plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
-plt.legend()
-plt.show()
+# Configure dataset for performance
+train_ds = train_ds.prefetch(buffer_size=AUTOTUNE)
+val_ds = val_ds.prefetch(buffer_size=AUTOTUNE)
+
+training = True
+
+if training:
+    # Define the input shape for the model (standard image dimensions with 3 color channels)
+    input_shape = (256, 256, 3)
+
+    # Load the pretrained ResNet50 model without the classification head (include_top=False)
+    # and with ImageNet weights; use this as the feature extractor
+    base_model = tf.keras.applications.EfficientNetB7(
+        include_top=False,
+        weights='imagenet',
+        input_shape=input_shape
+    )
+
+    # # Freeze the base model to prevent its weights from being updated during training
+    base_model.trainable = False
+
+    # Define the model's input layer with the specified shape
+    inputs = tf.keras.Input(shape=input_shape)
+
+    # Pass the inputs through the pretrained base model without training it
+    x = base_model(inputs, training=False)
+
+    # Add a dense layer to learn additional representations from extracted features
+    x = tf.keras.layers.Dense(512, activation='relu')(x)
+
+    # Apply global average pooling to reduce spatial dimensions to a single vector
+    x = tf.keras.layers.GlobalAveragePooling2D()(x)
+
+    # Final output layer with sigmoid activation for binary classification
+    outputs = tf.keras.layers.Dense(len(class_names), activation='softmax')(x)
+
+    # Create the full model by specifying inputs and outputs
+    model = tf.keras.models.Model(inputs=inputs, outputs=outputs)
+
+    model.summary()
+
+    model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
+    early_stop = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=100, mode='max',
+                                                  restore_best_weights=True)
+
+    history = model.fit(train_ds, epochs=EPOCHS, validation_data=val_ds, callbacks=[early_stop])
+    model.save('bird_effnetb7.keras')
+
+    with open("bird_effnetb7.json", "w") as f:
+        json.dump(history.history, f)
+
+
+def testing(dataset, model):
+    y_true = []
+    y_pred = []
+
+    for images, labels in dataset:
+        predictions = model.predict(images)  # Get predictions as a 1D array
+        binary_predictions = np.argmax(predictions, axis=-1)
+        y_true.extend(labels.numpy())
+        y_pred.extend(binary_predictions)
+
+    # Convert lists to numpy arrays
+    y_true = np.array(y_true)
+    y_pred = np.array(y_pred)
+
+    # Calculate accuracy, precision, recall, and F1-score
+    accuracy = accuracy_score(y_true, y_pred)
+    precision = precision_score(y_true, y_pred, average='weighted')
+    recall = recall_score(y_true, y_pred, average='weighted')
+    f1 = f1_score(y_true, y_pred, average='weighted')
+
+    # Generate classification report with 4 significant figures
+    report = classification_report(y_true, y_pred, digits=4)
+
+    # Output metrics
+    print("Accuracy:", accuracy)
+    print("Precision:", precision)
+    print("Recall:", recall)
+    print("F1 Score:", f1)
+    print("Classification Report:")
+    print(report)
+
+    # Create and display confusion matrix
+    cm = confusion_matrix(y_true, y_pred)
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=class_names, yticklabels=class_names)
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.title('Confusion Matrix')
+    plt.show()
+
+
+model = tf.keras.models.load_model('bird_effnetb7.keras')
+testing(val_ds, model)
