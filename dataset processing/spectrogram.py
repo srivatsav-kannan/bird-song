@@ -9,13 +9,13 @@ from pathlib import Path
 
 def convert(INPUT_DIR, OUTPUT_DIR):
     # Parameters
-    SAMPLE_RATE = 22050
+    SAMPLE_RATE = 32000
     IMG_SIZE = (256, 256)
 
     def save_spectrogram(file_path, output_path):
         try:
             y, sr = librosa.load(file_path, sr=SAMPLE_RATE)
-            S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000)
+            S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128, fmax=8000, hop_length=320)
             S_dB = librosa.power_to_db(S, ref=np.max)
 
             # Create figure
@@ -44,10 +44,11 @@ def convert(INPUT_DIR, OUTPUT_DIR):
     print("Spectrogram conversion complete.")
 
 # Input and output directories
-INPUT = '/Users/srivatsavkannan/Datasets/BirdSong/classification_train'
-OUTPUT = '/Users/srivatsavkannan/Datasets/BirdSong/classification_train_spectrogram'
+INPUT = '/Users/srivatsavkannan/Datasets/Bird Sound/Dataset_Curated_Balanced/val'
+OUTPUT = '/Users/srivatsavkannan/Datasets/Bird Sound/Dataset_Curated_Balanced_Converted/val'
+os.makedirs(OUTPUT, exist_ok=True)
 convert(INPUT, OUTPUT)
 
-INPUT = '/Users/srivatsavkannan/Datasets/BirdSong/classification_test'
-OUTPUT = '/Users/srivatsavkannan/Datasets/BirdSong/classification_test_spectrogram'
-convert(INPUT, OUTPUT)
+# INPUT = '/Users/srivatsavkannan/Datasets/BirdSong/classification_test'
+# OUTPUT = '/Users/srivatsavkannan/Datasets/BirdSong/classification_test_spectrogram'
+# convert(INPUT, OUTPUT)

@@ -16,14 +16,14 @@ from sklearn.metrics import (
 print(tf.config.list_physical_devices('GPU'))
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-train_dir = "/Users/srivatsavkannan/Datasets/Bird Sound/Dataset_Curated_Balanced_Split_Converted/train"
-val_dir = "/Users/srivatsavkannan/Datasets/Bird Sound/Dataset_Curated_Balanced_Split_Converted/val"
+train_dir = "/Users/srivatsavkannan/Datasets/Dataset_Curated_Balanced_Converted/train"
+val_dir = "/Users/srivatsavkannan/Datasets/Dataset_Curated_Balanced_Converted/val"
 
 IMAGE_SIZE = (256, 256)
 BATCH_SIZE = 16
 EPOCHS = 20
 AUTOTUNE = tf.data.experimental.AUTOTUNE
-class_names = sorted(os.listdir(train_dir))[1:]
+class_names = sorted(os.listdir(train_dir))
 print(class_names)
 print(len(class_names))
 
@@ -45,7 +45,7 @@ val_ds = image_dataset_from_directory(
 train_ds = train_ds.prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.prefetch(buffer_size=AUTOTUNE)
 
-training = True
+training = False
 
 if training:
     # Define the input shape for the model (standard image dimensions with 3 color channels)
@@ -134,5 +134,5 @@ def testing(dataset, model):
     plt.show()
 
 
-model = tf.keras.models.load_model('bird_effnetb7.keras')
+model = tf.keras.models.load_model('bird_resnet.keras')
 testing(val_ds, model)
