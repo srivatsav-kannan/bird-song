@@ -29,7 +29,7 @@ def convert(INPUT_DIR, OUTPUT_DIR):
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
             plt.savefig(output_path, bbox_inches='tight', pad_inches=0)
             plt.close(fig)
-        except Exception as e:
+        except Exception as e: a
             print(f"Failed to process {file_path}: {e}")
 
     # Walk through all files
@@ -44,8 +44,8 @@ def convert(INPUT_DIR, OUTPUT_DIR):
     print("Spectrogram conversion complete.")
 
 # Input and output directories
-INPUT = '/Users/srivatsavkannan/Datasets/Bird Sound/Dataset_Curated_Balanced/val'
-OUTPUT = '/Users/srivatsavkannan/Datasets/Bird Sound/Dataset_Curated_Balanced_Converted/val'
+INPUT = '/Users/srivatsavkannan/Datasets/Dataset_Curated_Balanced/val'
+OUTPUT = '/Users/srivatsavkannan/Datasets/Converted/val'
 os.makedirs(OUTPUT, exist_ok=True)
 convert(INPUT, OUTPUT)
 

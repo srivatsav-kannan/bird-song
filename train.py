@@ -16,14 +16,14 @@ from sklearn.metrics import (
 print(tf.config.list_physical_devices('GPU'))
 print("Num GPUs Available: ", len(tf.config.list_physical_devices('GPU')))
 
-train_dir = "/Users/srivatsavkannan/Datasets/Dataset_Curated_Balanced_Converted/train"
-val_dir = "/Users/srivatsavkannan/Datasets/Dataset_Curated_Balanced_Converted/val"
+train_dir = "/Users/srivatsavkannan/Datasets/BirdSong/Dataset_Curated_Balanced_Converted/train"
+val_dir = "/Users/srivatsavkannan/Datasets/BirdSong/Dataset_Curated_Balanced_Converted/val"
 
 IMAGE_SIZE = (256, 256)
 BATCH_SIZE = 16
 EPOCHS = 20
 AUTOTUNE = tf.data.experimental.AUTOTUNE
-class_names = sorted(os.listdir(train_dir))
+class_names = sorted(list(s for s in os.listdir(train_dir) if s != '.DS_Store'))
 print(class_names)
 print(len(class_names))
 
@@ -93,30 +93,42 @@ if training:
         json.dump(history.history, f)
 
 
-def testing(dataset, model):
+import textwrap
+
+# Updated class names with spaces
+class_names = [
+    "Banasura Laughingthrush",
+    "Bugun Liocichla",
+    "Forest Owlet",
+    "Jerdon's Courser"
+]
+
+def format_labels(labels, width=12):
+    """Wraps long labels into multiple lines without splitting words."""
+    return ['\n'.join(textwrap.wrap(label, width, break_long_words=False, break_on_hyphens=False))
+            for label in labels]
+
+
+def testing(dataset, model, title):
     y_true = []
     y_pred = []
 
     for images, labels in dataset:
-        predictions = model.predict(images)  # Get predictions as a 1D array
+        predictions = model.predict(images)
         binary_predictions = np.argmax(predictions, axis=-1)
         y_true.extend(labels.numpy())
         y_pred.extend(binary_predictions)
 
-    # Convert lists to numpy arrays
     y_true = np.array(y_true)
     y_pred = np.array(y_pred)
 
-    # Calculate accuracy, precision, recall, and F1-score
     accuracy = accuracy_score(y_true, y_pred)
     precision = precision_score(y_true, y_pred, average='weighted')
     recall = recall_score(y_true, y_pred, average='weighted')
     f1 = f1_score(y_true, y_pred, average='weighted')
 
-    # Generate classification report with 4 significant figures
     report = classification_report(y_true, y_pred, digits=4)
 
-    # Output metrics
     print("Accuracy:", accuracy)
     print("Precision:", precision)
     print("Recall:", recall)
@@ -124,15 +136,95 @@ def testing(dataset, model):
     print("Classification Report:")
     print(report)
 
-    # Create and display confusion matrix
     cm = confusion_matrix(y_true, y_pred)
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", xticklabels=class_names, yticklabels=class_names)
+
+    # Format labels for better display
+    wrapped_labels = format_labels(class_names)
+
+    plt.figure(figsize=(9, 7))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
+                xticklabels=wrapped_labels, yticklabels=wrapped_labels)
     plt.xlabel('Predicted')
     plt.ylabel('True')
-    plt.title('Confusion Matrix')
+    plt.title(title)
+    plt.tight_layout()
+    plt.show()
+
+def testing_soft_voting(dataset, model1, model2):
+    y_true = []
+    y_pred = []
+
+    for images, labels in dataset:
+        preds1 = model1.predict(images) * 0.4
+        preds2 = model2.predict(images) * 0.6
+        avg_preds = preds1 + preds2
+        final_preds = np.argmax(avg_preds, axis=-1)
+
+        y_true.extend(labels.numpy())
+        y_pred.extend(final_preds)
+
+    y_true = np.array(y_true)
+    y_pred = np.array(y_pred)
+
+    accuracy = accuracy_score(y_true, y_pred)
+    precision = precision_score(y_true, y_pred, average='weighted')
+    recall = recall_score(y_true, y_pred, average='weighted')
+    f1 = f1_score(y_true, y_pred, average='weighted')
+
+    report = classification_report(y_true, y_pred, digits=4)
+    print("Accuracy:", accuracy)
+    print("Precision:", precision)
+    print("Recall:", recall)
+    print("F1 Score:", f1)
+    print("Classification Report:")
+    print(report)
+
+    cm = confusion_matrix(y_true, y_pred)
+    print(cm)
+
+    wrapped_labels = format_labels(class_names)
+
+    plt.figure(figsize=(9, 7))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues",
+                xticklabels=wrapped_labels, yticklabels=wrapped_labels)
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    plt.title('Soft Voting Ensemble Confusion Matrix')
+    plt.tight_layout()
     plt.show()
 
 
-model = tf.keras.models.load_model('bird_resnet.keras')
-testing(val_ds, model)
+model_effnet = tf.keras.models.load_model('bird_effnetb7.keras')
+model_resnet = tf.keras.models.load_model('bird_resnet.keras')
+
+testing(val_ds, model_resnet, title='ResNet50 Confusion Matrix')
+testing(val_ds, model_effnet, title='EffNetB7 Confusion Matrix')
+testing_soft_voting(val_ds, model_effnet, model_resnet)
+#
+
+
+with open("bird_effnetb7.json", "r") as f:
+    history = json.load(f)
+
+# Plot training & validation accuracy
+plt.figure(figsize=(10, 4))
+
+plt.subplot(1, 2, 1)
+plt.plot(history['accuracy'], label='Train Accuracy')
+plt.plot(history['val_accuracy'], label='Val Accuracy')
+plt.title('Model Accuracy')
+plt.xlabel('Epoch')
+plt.ylabel('Accuracy')
+plt.legend()
+
+# Plot training & validation loss
+plt.subplot(1, 2, 2)
+plt.plot(history['loss'], label='Train Loss')
+plt.plot(history['val_loss'], label='Val Loss')
+plt.title('Model Loss')
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
+plt.legend()
+
+plt.tight_layout()
+plt.show()
