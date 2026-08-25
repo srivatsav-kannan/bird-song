@@ -1,0 +1,1014 @@
+{
+ "recording": {
+  "cnn": {
+   "accuracy": 0.8341968911917098,
+   "macro_f1": 0.8259738919603448,
+   "weighted_f1": 0.8330779851709973,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.7752808988764045,
+     "recall": 0.9324324324324325,
+     "f1": 0.8466257668711656,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.8709677419354839,
+     "recall": 0.84375,
+     "f1": 0.8571428571428571,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.9032258064516129,
+     "recall": 0.7466666666666667,
+     "f1": 0.8175182481751825,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.8181818181818182,
+     "recall": 0.75,
+     "f1": 0.782608695652174,
+     "support": 12
+    }
+   },
+   "n_recordings": 193,
+   "accuracy_ci95": [
+    0.7772020725388601,
+    0.8860103626943006
+   ],
+   "macro_f1_ci95": [
+    0.7498341892608418,
+    0.8891881465277213
+   ],
+   "per_seed_accuracy": [
+    0.8393782383419689,
+    0.8290155440414507,
+    0.8134715025906736
+   ],
+   "seed_accuracy_sd": 0.010646656309100121
+  },
+  "mil": {
+   "accuracy": 0.9637305699481865,
+   "macro_f1": 0.963698389292196,
+   "weighted_f1": 0.9637965827557998,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.9358974358974359,
+     "recall": 0.9864864864864865,
+     "f1": 0.9605263157894737,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.96875,
+     "recall": 0.96875,
+     "f1": 0.96875,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 1.0,
+     "recall": 0.9333333333333333,
+     "f1": 0.9655172413793104,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.9230769230769231,
+     "recall": 1.0,
+     "f1": 0.96,
+     "support": 12
+    }
+   },
+   "n_recordings": 193,
+   "accuracy_ci95": [
+    0.9378238341968912,
+    0.9896373056994818
+   ],
+   "macro_f1_ci95": [
+    0.9266333295794067,
+    0.9898441958630348
+   ],
+   "per_seed_accuracy": [
+    0.9533678756476683,
+    0.9637305699481865,
+    0.9533678756476683
+   ],
+   "seed_accuracy_sd": 0.004885020940839724
+  },
+  "mil_adapted": {
+   "accuracy": 0.9015544041450777,
+   "macro_f1": 0.8696580036878544,
+   "weighted_f1": 0.9029788554960622,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.9710144927536232,
+     "recall": 0.9054054054054054,
+     "f1": 0.9370629370629371,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.8285714285714286,
+     "recall": 0.90625,
+     "f1": 0.8656716417910447,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.9066666666666666,
+     "recall": 0.9066666666666666,
+     "f1": 0.9066666666666666,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.7142857142857143,
+     "recall": 0.8333333333333334,
+     "f1": 0.7692307692307693,
+     "support": 12
+    }
+   },
+   "n_recordings": 193,
+   "accuracy_ci95": [
+    0.8601036269430051,
+    0.9430051813471503
+   ],
+   "macro_f1_ci95": [
+    0.8003899455703398,
+    0.9255039895521101
+   ],
+   "per_seed_accuracy": [
+    0.8860103626943006,
+    0.8911917098445595,
+    0.8963730569948186
+   ],
+   "seed_accuracy_sd": 0.004230552232786115
+  },
+  "probe": {
+   "accuracy": 0.9740932642487047,
+   "macro_f1": 0.972616887746322,
+   "weighted_f1": 0.9740964683465144,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.9726027397260274,
+     "recall": 0.9594594594594594,
+     "f1": 0.9659863945578231,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.9696969696969697,
+     "recall": 1.0,
+     "f1": 0.9846153846153847,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.9864864864864865,
+     "recall": 0.9733333333333334,
+     "f1": 0.9798657718120806,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.9230769230769231,
+     "recall": 1.0,
+     "f1": 0.96,
+     "support": 12
+    }
+   },
+   "n_recordings": 193,
+   "accuracy_ci95": [
+    0.9481865284974094,
+    0.9948186528497409
+   ],
+   "macro_f1_ci95": [
+    0.9382653335274741,
+    0.9964853021230267
+   ],
+   "per_seed_accuracy": [
+    0.9689119170984456,
+    0.9740932642487047,
+    0.9740932642487047
+   ],
+   "seed_accuracy_sd": 0.002442510470419862
+  },
+  "probe_adapted": {
+   "accuracy": 0.927461139896373,
+   "macro_f1": 0.9051464991062307,
+   "weighted_f1": 0.9278139339689572,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.9459459459459459,
+     "recall": 0.9459459459459459,
+     "f1": 0.9459459459459459,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.9032258064516129,
+     "recall": 0.875,
+     "f1": 0.8888888888888888,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.9459459459459459,
+     "recall": 0.9333333333333333,
+     "f1": 0.9395973154362416,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.7857142857142857,
+     "recall": 0.9166666666666666,
+     "f1": 0.8461538461538461,
+     "support": 12
+    }
+   },
+   "n_recordings": 193,
+   "accuracy_ci95": [
+    0.8911917098445595,
+    0.9637305699481865
+   ],
+   "macro_f1_ci95": [
+    0.8428752850710254,
+    0.9528530072871491
+   ],
+   "per_seed_accuracy": [
+    0.927461139896373,
+    0.9326424870466321,
+    0.917098445595855
+   ],
+   "seed_accuracy_sd": 0.00646227527940229
+  },
+  "ens_cnn+probe": {
+   "accuracy": 0.9689119170984456,
+   "macro_f1": 0.9714965986394557,
+   "weighted_f1": 0.9689584434810192,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.9473684210526315,
+     "recall": 0.972972972972973,
+     "f1": 0.96,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.9861111111111112,
+     "recall": 0.9466666666666667,
+     "f1": 0.9659863945578231,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.9230769230769231,
+     "recall": 1.0,
+     "f1": 0.96,
+     "support": 12
+    }
+   },
+   "n_recordings": 193,
+   "accuracy_ci95": [
+    0.9430051813471503,
+    0.9896373056994818
+   ],
+   "macro_f1_ci95": [
+    0.9389557383830592,
+    0.9931047487192189
+   ],
+   "members": [
+    "cnn",
+    "probe"
+   ]
+  },
+  "ens_probe+mil": {
+   "accuracy": 0.9792746113989638,
+   "macro_f1": 0.9843635323501095,
+   "weighted_f1": 0.9792623067025822,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.972972972972973,
+     "recall": 0.972972972972973,
+     "f1": 0.972972972972973,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.9696969696969697,
+     "recall": 1.0,
+     "f1": 0.9846153846153847,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.9864864864864865,
+     "recall": 0.9733333333333334,
+     "f1": 0.9798657718120806,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "support": 12
+    }
+   },
+   "n_recordings": 193,
+   "accuracy_ci95": [
+    0.9585492227979274,
+    0.9948186528497409
+   ],
+   "macro_f1_ci95": [
+    0.9671322801045351,
+    0.9967891527357875
+   ],
+   "members": [
+    "probe",
+    "mil"
+   ]
+  },
+  "ens_cnn+probe+mil": {
+   "accuracy": 0.9792746113989638,
+   "macro_f1": 0.984385138670853,
+   "weighted_f1": 0.9792940245049793,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.9605263157894737,
+     "recall": 0.9864864864864865,
+     "f1": 0.9733333333333334,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.9696969696969697,
+     "recall": 1.0,
+     "f1": 0.9846153846153847,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 1.0,
+     "recall": 0.96,
+     "f1": 0.9795918367346939,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "support": 12
+    }
+   },
+   "n_recordings": 193,
+   "accuracy_ci95": [
+    0.9585492227979274,
+    0.9948186528497409
+   ],
+   "macro_f1_ci95": [
+    0.9671144507739075,
+    0.9967950464875345
+   ],
+   "members": [
+    "cnn",
+    "probe",
+    "mil"
+   ]
+  }
+ },
+ "event": {
+  "cnn": {
+   "accuracy": 0.7582417582417582,
+   "macro_f1": 0.5680048896609406,
+   "weighted_f1": 0.7613672597749032,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.7349397590361446,
+     "recall": 0.8243243243243243,
+     "f1": 0.7770700636942676,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.65,
+     "recall": 0.8125,
+     "f1": 0.7222222222222222,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.8947368421052632,
+     "recall": 0.68,
+     "f1": 0.7727272727272727,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.0,
+     "recall": 0.0,
+     "f1": 0.0,
+     "support": 1
+    }
+   },
+   "n_recordings": 182,
+   "accuracy_ci95": [
+    0.6923076923076923,
+    0.8186813186813187
+   ],
+   "macro_f1_ci95": [
+    0.5132466994783171,
+    0.6153475399756844
+   ],
+   "per_seed_accuracy": [
+    0.7252747252747253,
+    0.7802197802197802,
+    0.7252747252747253
+   ],
+   "seed_accuracy_sd": 0.025901347296210544
+  },
+  "mil": {
+   "accuracy": 0.9505494505494505,
+   "macro_f1": 0.8073084449796779,
+   "weighted_f1": 0.9573352985516166,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.958904109589041,
+     "recall": 0.9459459459459459,
+     "f1": 0.9523809523809523,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.9696969696969697,
+     "recall": 1.0,
+     "f1": 0.9846153846153847,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.9859154929577465,
+     "recall": 0.9333333333333333,
+     "f1": 0.958904109589041,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.2,
+     "recall": 1.0,
+     "f1": 0.3333333333333333,
+     "support": 1
+    }
+   },
+   "n_recordings": 182,
+   "accuracy_ci95": [
+    0.9120879120879121,
+    0.978021978021978
+   ],
+   "macro_f1_ci95": [
+    0.7085354570231285,
+    0.9344397611277985
+   ],
+   "per_seed_accuracy": [
+    0.9395604395604396,
+    0.9395604395604396,
+    0.945054945054945
+   ],
+   "seed_accuracy_sd": 0.002590134729621044
+  },
+  "mil_adapted": {
+   "accuracy": 0.8956043956043956,
+   "macro_f1": 0.7490647753918303,
+   "weighted_f1": 0.9021085664921282,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.9444444444444444,
+     "recall": 0.918918918918919,
+     "f1": 0.9315068493150684,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.8125,
+     "recall": 0.8125,
+     "f1": 0.8125,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.9315068493150684,
+     "recall": 0.9066666666666666,
+     "f1": 0.918918918918919,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.2,
+     "recall": 1.0,
+     "f1": 0.3333333333333333,
+     "support": 1
+    }
+   },
+   "n_recordings": 182,
+   "accuracy_ci95": [
+    0.8461538461538461,
+    0.9395604395604396
+   ],
+   "macro_f1_ci95": [
+    0.6344849782758961,
+    0.8697270749061392
+   ],
+   "per_seed_accuracy": [
+    0.8846153846153846,
+    0.9010989010989011,
+    0.8571428571428571
+   ],
+   "seed_accuracy_sd": 0.0181309431073474
+  },
+  "probe": {
+   "accuracy": 0.989010989010989,
+   "macro_f1": 0.9116104359392949,
+   "weighted_f1": 0.9898709277903908,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.9866666666666667,
+     "recall": 1.0,
+     "f1": 0.9932885906040269,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 1.0,
+     "recall": 0.9733333333333334,
+     "f1": 0.9864864864864865,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.5,
+     "recall": 1.0,
+     "f1": 0.6666666666666666,
+     "support": 1
+    }
+   },
+   "n_recordings": 182,
+   "accuracy_ci95": [
+    0.9725274725274725,
+    1.0
+   ],
+   "macro_f1_ci95": [
+    0.7383924709258542,
+    1.0
+   ],
+   "per_seed_accuracy": [
+    0.9835164835164835,
+    0.9835164835164835,
+    0.978021978021978
+   ],
+   "seed_accuracy_sd": 0.002590134729621044
+  },
+  "probe_adapted": {
+   "accuracy": 0.9010989010989011,
+   "macro_f1": 0.7719597467365324,
+   "weighted_f1": 0.9053928788622666,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.9315068493150684,
+     "recall": 0.918918918918919,
+     "f1": 0.9251700680272109,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.84375,
+     "recall": 0.84375,
+     "f1": 0.84375,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.9315068493150684,
+     "recall": 0.9066666666666666,
+     "f1": 0.918918918918919,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.25,
+     "recall": 1.0,
+     "f1": 0.4,
+     "support": 1
+    }
+   },
+   "n_recordings": 182,
+   "accuracy_ci95": [
+    0.8516483516483516,
+    0.945054945054945
+   ],
+   "macro_f1_ci95": [
+    0.6409317041437003,
+    0.9095916058327371
+   ],
+   "per_seed_accuracy": [
+    0.9120879120879121,
+    0.8956043956043956,
+    0.9010989010989011
+   ],
+   "seed_accuracy_sd": 0.006852852356728806
+  },
+  "ens_cnn+probe": {
+   "accuracy": 0.9505494505494505,
+   "macro_f1": 0.9675590749120161,
+   "weighted_f1": 0.9504839805744782,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.9113924050632911,
+     "recall": 0.972972972972973,
+     "f1": 0.9411764705882353,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.9696969696969697,
+     "recall": 1.0,
+     "f1": 0.9846153846153847,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.9855072463768116,
+     "recall": 0.9066666666666666,
+     "f1": 0.9444444444444444,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "support": 1
+    }
+   },
+   "n_recordings": 182,
+   "accuracy_ci95": [
+    0.9175824175824175,
+    0.978021978021978
+   ],
+   "macro_f1_ci95": [
+    0.6992006442409389,
+    0.9843174793710827
+   ],
+   "members": [
+    "cnn",
+    "probe"
+   ]
+  },
+  "ens_probe+mil": {
+   "accuracy": 0.978021978021978,
+   "macro_f1": 0.8648644021366936,
+   "weighted_f1": 0.9806563454351428,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.9733333333333334,
+     "recall": 0.9864864864864865,
+     "f1": 0.9798657718120806,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 1.0,
+     "recall": 0.96,
+     "f1": 0.9795918367346939,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 0.3333333333333333,
+     "recall": 1.0,
+     "f1": 0.5,
+     "support": 1
+    }
+   },
+   "n_recordings": 182,
+   "accuracy_ci95": [
+    0.9559065934065935,
+    0.9945054945054945
+   ],
+   "macro_f1_ci95": [
+    0.7297148226980851,
+    0.9966334728150897
+   ],
+   "members": [
+    "probe",
+    "mil"
+   ]
+  },
+  "ens_cnn+probe+mil": {
+   "accuracy": 0.9615384615384616,
+   "macro_f1": 0.9742904695775965,
+   "weighted_f1": 0.9615111920368761,
+   "per_class": {
+    "BanasuraLaughingthrush": {
+     "precision": 0.935064935064935,
+     "recall": 0.972972972972973,
+     "f1": 0.9536423841059603,
+     "support": 74
+    },
+    "BugunLiocichla": {
+     "precision": 0.9696969696969697,
+     "recall": 1.0,
+     "f1": 0.9846153846153847,
+     "support": 32
+    },
+    "ForestOwlet": {
+     "precision": 0.9859154929577465,
+     "recall": 0.9333333333333333,
+     "f1": 0.958904109589041,
+     "support": 75
+    },
+    "JerdonsCourser": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "f1": 1.0,
+     "support": 1
+    }
+   },
+   "n_recordings": 182,
+   "accuracy_ci95": [
+    0.9285714285714286,
+    0.9835164835164835
+   ],
+   "macro_f1_ci95": [
+    0.7089264180868776,
+    0.9897274633123689
+   ],
+   "members": [
+    "cnn",
+    "probe",
+    "mil"
+   ]
+  }
+ },
+ "mcnemar": {
+  "recording:cnn_vs_mil": {
+   "n_A_only_correct": 4,
+   "n_B_only_correct": 29,
+   "p_value": 1.0928604751825333e-05
+  },
+  "recording:cnn_vs_mil_adapted": {
+   "n_A_only_correct": 15,
+   "n_B_only_correct": 28,
+   "p_value": 0.0659940344557981
+  },
+  "recording:cnn_vs_probe": {
+   "n_A_only_correct": 3,
+   "n_B_only_correct": 30,
+   "p_value": 1.4011748135089874e-06
+  },
+  "recording:cnn_vs_probe_adapted": {
+   "n_A_only_correct": 12,
+   "n_B_only_correct": 30,
+   "p_value": 0.007915897334896727
+  },
+  "recording:cnn_vs_ens_cnn+probe": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 28,
+   "p_value": 8.67992639541626e-07
+  },
+  "recording:cnn_vs_ens_probe+mil": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 30,
+   "p_value": 2.4633482098579407e-07
+  },
+  "recording:cnn_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 1,
+   "n_B_only_correct": 29,
+   "p_value": 5.774199962615967e-08
+  },
+  "recording:mil_vs_mil_adapted": {
+   "n_A_only_correct": 15,
+   "n_B_only_correct": 3,
+   "p_value": 0.007537841796875
+  },
+  "recording:mil_vs_probe": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 4,
+   "p_value": 0.6875
+  },
+  "recording:mil_vs_probe_adapted": {
+   "n_A_only_correct": 11,
+   "n_B_only_correct": 4,
+   "p_value": 0.11846923828124999
+  },
+  "recording:mil_vs_ens_cnn+probe": {
+   "n_A_only_correct": 3,
+   "n_B_only_correct": 4,
+   "p_value": 1.0
+  },
+  "recording:mil_vs_ens_probe+mil": {
+   "n_A_only_correct": 1,
+   "n_B_only_correct": 4,
+   "p_value": 0.375
+  },
+  "recording:mil_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 0,
+   "n_B_only_correct": 3,
+   "p_value": 0.25
+  },
+  "recording:mil_adapted_vs_probe": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 16,
+   "p_value": 0.001312255859375
+  },
+  "recording:mil_adapted_vs_probe_adapted": {
+   "n_A_only_correct": 5,
+   "n_B_only_correct": 10,
+   "p_value": 0.30175781249999994
+  },
+  "recording:mil_adapted_vs_ens_cnn+probe": {
+   "n_A_only_correct": 4,
+   "n_B_only_correct": 17,
+   "p_value": 0.007197380065917969
+  },
+  "recording:mil_adapted_vs_ens_probe+mil": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 17,
+   "p_value": 0.000728607177734375
+  },
+  "recording:mil_adapted_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 17,
+   "p_value": 0.000728607177734375
+  },
+  "recording:probe_vs_probe_adapted": {
+   "n_A_only_correct": 11,
+   "n_B_only_correct": 2,
+   "p_value": 0.0224609375
+  },
+  "recording:probe_vs_ens_cnn+probe": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 1,
+   "p_value": 1.0
+  },
+  "recording:probe_vs_ens_probe+mil": {
+   "n_A_only_correct": 0,
+   "n_B_only_correct": 1,
+   "p_value": 1.0
+  },
+  "recording:probe_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 1,
+   "n_B_only_correct": 2,
+   "p_value": 1.0
+  },
+  "recording:probe_adapted_vs_ens_cnn+probe": {
+   "n_A_only_correct": 4,
+   "n_B_only_correct": 12,
+   "p_value": 0.076812744140625
+  },
+  "recording:probe_adapted_vs_ens_probe+mil": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 12,
+   "p_value": 0.012939453125
+  },
+  "recording:probe_adapted_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 12,
+   "p_value": 0.012939453125
+  },
+  "recording:ens_cnn+probe_vs_ens_probe+mil": {
+   "n_A_only_correct": 1,
+   "n_B_only_correct": 3,
+   "p_value": 0.625
+  },
+  "recording:ens_cnn+probe_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 1,
+   "n_B_only_correct": 3,
+   "p_value": 0.625
+  },
+  "recording:ens_probe+mil_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 1,
+   "n_B_only_correct": 1,
+   "p_value": 1.0
+  },
+  "event:cnn_vs_mil": {
+   "n_A_only_correct": 3,
+   "n_B_only_correct": 38,
+   "p_value": 1.0479197953827679e-08
+  },
+  "event:cnn_vs_mil_adapted": {
+   "n_A_only_correct": 10,
+   "n_B_only_correct": 35,
+   "p_value": 0.00024708778460080794
+  },
+  "event:cnn_vs_probe": {
+   "n_A_only_correct": 0,
+   "n_B_only_correct": 42,
+   "p_value": 4.547473508864641e-13
+  },
+  "event:cnn_vs_probe_adapted": {
+   "n_A_only_correct": 10,
+   "n_B_only_correct": 36,
+   "p_value": 0.00015641720852954677
+  },
+  "event:cnn_vs_ens_cnn+probe": {
+   "n_A_only_correct": 0,
+   "n_B_only_correct": 35,
+   "p_value": 5.820766091346741e-11
+  },
+  "event:cnn_vs_ens_probe+mil": {
+   "n_A_only_correct": 1,
+   "n_B_only_correct": 41,
+   "p_value": 1.9554136088117957e-11
+  },
+  "event:cnn_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 0,
+   "n_B_only_correct": 37,
+   "p_value": 1.4551915228366852e-11
+  },
+  "event:mil_vs_mil_adapted": {
+   "n_A_only_correct": 14,
+   "n_B_only_correct": 4,
+   "p_value": 0.0308837890625
+  },
+  "event:mil_vs_probe": {
+   "n_A_only_correct": 0,
+   "n_B_only_correct": 7,
+   "p_value": 0.015625
+  },
+  "event:mil_vs_probe_adapted": {
+   "n_A_only_correct": 16,
+   "n_B_only_correct": 7,
+   "p_value": 0.0931396484375
+  },
+  "event:mil_vs_ens_cnn+probe": {
+   "n_A_only_correct": 4,
+   "n_B_only_correct": 4,
+   "p_value": 1.0
+  },
+  "event:mil_vs_ens_probe+mil": {
+   "n_A_only_correct": 0,
+   "n_B_only_correct": 5,
+   "p_value": 0.0625
+  },
+  "event:mil_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 4,
+   "p_value": 0.6875
+  },
+  "event:mil_adapted_vs_probe": {
+   "n_A_only_correct": 1,
+   "n_B_only_correct": 18,
+   "p_value": 7.62939453125e-05
+  },
+  "event:mil_adapted_vs_probe_adapted": {
+   "n_A_only_correct": 8,
+   "n_B_only_correct": 9,
+   "p_value": 1.0
+  },
+  "event:mil_adapted_vs_ens_cnn+probe": {
+   "n_A_only_correct": 4,
+   "n_B_only_correct": 14,
+   "p_value": 0.0308837890625
+  },
+  "event:mil_adapted_vs_ens_probe+mil": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 17,
+   "p_value": 0.000728607177734375
+  },
+  "event:mil_adapted_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 3,
+   "n_B_only_correct": 15,
+   "p_value": 0.007537841796875
+  },
+  "event:probe_vs_probe_adapted": {
+   "n_A_only_correct": 17,
+   "n_B_only_correct": 1,
+   "p_value": 0.00014495849609375
+  },
+  "event:probe_vs_ens_cnn+probe": {
+   "n_A_only_correct": 7,
+   "n_B_only_correct": 0,
+   "p_value": 0.015625
+  },
+  "event:probe_vs_ens_probe+mil": {
+   "n_A_only_correct": 2,
+   "n_B_only_correct": 0,
+   "p_value": 0.5
+  },
+  "event:probe_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 5,
+   "n_B_only_correct": 0,
+   "p_value": 0.0625
+  },
+  "event:probe_adapted_vs_ens_cnn+probe": {
+   "n_A_only_correct": 6,
+   "n_B_only_correct": 15,
+   "p_value": 0.0783538818359375
+  },
+  "event:probe_adapted_vs_ens_probe+mil": {
+   "n_A_only_correct": 3,
+   "n_B_only_correct": 17,
+   "p_value": 0.0025768280029296875
+  },
+  "event:probe_adapted_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 5,
+   "n_B_only_correct": 16,
+   "p_value": 0.02660369873046875
+  },
+  "event:ens_cnn+probe_vs_ens_probe+mil": {
+   "n_A_only_correct": 1,
+   "n_B_only_correct": 6,
+   "p_value": 0.125
+  },
+  "event:ens_cnn+probe_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 0,
+   "n_B_only_correct": 2,
+   "p_value": 0.5
+  },
+  "event:ens_probe+mil_vs_ens_cnn+probe+mil": {
+   "n_A_only_correct": 4,
+   "n_B_only_correct": 1,
+   "p_value": 0.375
+  }
+ }
+}

@@ -1,0 +1,16 @@
+{
+ "window_auroc_msp": [
+  0.8683484508800874,
+  0.04474712906410367
+ ],
+ "window_auroc_energy": [
+  0.8780281899835364,
+  0.06499489214833518
+ ],
+ "n_id_recordings": 193,
+ "n_ood_recordings": 1891,
+ "val_calibrated_threshold": 0.6114725589752197,
+ "id_recording_accept_rate": 0.9740932642487047,
+ "ood_recording_false_accept_rate": 0.9370703331570598,
+ "rec_auroc_msp": 0.7459673994350112
+}

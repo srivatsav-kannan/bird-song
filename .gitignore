@@ -2,5 +2,14 @@
 *.pkl
 __pycache__/
 *.log
+.idea/
+.venv/
+.DS_Store
 
-.idea
+# large generated artifacts (regenerable from scripts + manifest)
+data/mels.npy
+data/mels_ids.npy
+data/embeddings.npz
+data/aux_embeddings.npz
+results/preds/
+results/*.pt
