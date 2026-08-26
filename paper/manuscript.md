@@ -16,32 +16,32 @@ India is home to over 1,300 bird species, of which more than 75 are considered e
 
 These four species are natural candidates for passive acoustic monitoring. They are nocturnal or skulking, occupy terrain where visual survey is difficult, and have distinctive vocalisations. Acoustic monitoring at useful scales, however, requires automated identification, because continuous recorders produce far more audio than observers can review. The classifiers that currently dominate applied bioacoustics cannot provide this identification for these species. We verified that only the Forest Owlet is present in the label set of BirdNET V2.4 (Kahl et al. 2021), the most widely used bird song classification system, and the other three species therefore cannot be detected by it at any confidence threshold. Therefore, there exists a need for classifiers specifically trained to classify these four species.
 
-However, training classifiers for endangered species with a limited number of recordings presents multiple methodological difficulties. The complete public record of these four species ranges from just 12 to 75 recordings per species. Datasets this small cannot support training conventional deep networks, so we instead build on acoustic embeddings from a large pretrained bird sound model, which transfer to small datasets far more effectively (Ghani et al. 2023). Small datasets also allow a model to score well by memorising recording conditions rather than the species, so we use a cross-validation design that keeps the data for training, model selection, and final testing strictly separate.
+However, training classifiers for endangered species with a limited number of recordings presents multiple methodological difficulties. The complete public record of these four species ranges from just 12 to 75 recordings per species. Datasets this small cannot support training conventional deep networks, so we instead build on acoustic embeddings from a large pretrained bird sound model, which transfer to small datasets far more effectively (Ghani et al. 2023).
 
-The study comprises five analyses. First, we compare three classifier families on the four-species identification task, a fine-tuned convolutional network on spectrograms representing standard practice, a lightweight classifier on frozen BirdNET embeddings, and a multiple instance learning model with attention that classifies whole recordings, in order to establish which approach the data scale actually supports. Second, we evaluate every model under two cross-validation schemes, one splitting at the level of the unique recording and a stricter one splitting at the level of the recording session, in order to measure whether performance survives when models cannot exploit any within-session similarity. Third, we test whether retraining the embeddings on 28 other endemic Indian species makes the four target species easier to distinguish. Fourth, we test whether the classifier can reject species it was not trained on, since a deployed detector hears far more non-target sound than target sound, by evaluating it against 1,891 recordings of the 28 non-target endemics and adding an explicit background class as a remedy. Fifth, we measure robustness by degrading test audio with additive noise at controlled signal-to-noise ratios. Together with a comparison against BirdNET's own output for the one species it covers, these analyses describe both what the archives can support and what remains missing for deployment.
+The study comprises four analyses. First, we compare three classifier families on the four-species identification task, a fine-tuned convolutional network on spectrograms representing standard practice, a lightweight classifier on frozen BirdNET embeddings, and a multiple instance learning model with attention that classifies whole recordings. We evaluate every model under two cross-validation schemes, one splitting at the level of the unique recording and a stricter one splitting at the level of the recording session. Then, we test whether retraining the embeddings on 28 other endemic Indian species makes the four target species easier to distinguish. We also evaluate whether the classifier can identify and reject species not included in our study, by evaluating it against 1,891 recordings of the 28 non-target endemics and adding an explicit background class as a remedy. Finally, we measure robustness by degrading test audio with additive noise at controlled signal-to-noise ratios. These analyses effectively build and evaluate bird sound classifiers using publicly available data, acting as a critical step towards full automated acoustic monitoring.
 
 ## Methods
 
-### Study species and data sources
+### Data sources
 
-We filtered the IUCN Red List for bird species endemic to India and listed as Endangered or Critically Endangered. Seven species qualified. The Great Nicobar Serpent Eagle *Spilornis klossi*, the Himalayan Quail *Ophrysia superciliosa*, and the Manipur Bush Quail *Perdicula manipurensis* have no usable recordings in either major public sound archive, and the Himalayan Quail has not been reliably recorded since the nineteenth century. The remaining four species listed above form the study set.
+We filtered the IUCN Red List for bird species endemic to India and listed as Endangered or Critically Endangered. Seven species qualified, of which the Great Nicobar Serpent Eagle (*Spilornis klossi*), the Himalayan Quail (*Ophrysia superciliosa*), and the Manipur Bush Quail (*Perdicula manipurensis*) had no usable recordings. The remaining four species listed in Table 1 form the study set.
 
-All available recordings of the four species were obtained from the Macaulay Library and Xeno-canto. Table 1 summarises the collection.
+All available recordings of the four species were obtained from the Macaulay Library and Xeno-canto.
 
-**Table 1.** The assembled dataset. Recording counts are unique recordings after duplicate removal, and windows are the three-second vocalisation segments described below.
+**Table 1.** The assembled dataset. Recording counts are unique recordings after duplicate removal, and windows refer to the numbers of three-second vocalisation segments.
 
-| Species | IUCN status | Macaulay Library | Xeno-canto | Total recordings | Total audio (min) | Windows |
-|---|---|---|---|---|---|---|
-| Forest Owlet | EN | 46 | 29 | 75 | 46.6 | 1,116 |
-| Banasura Laughingthrush | EN | 71 | 3 | 74 | 37.3 | 976 |
-| Bugun Liocichla | CR | 32 | 0 | 32 | 30.3 | 877 |
-| Jerdon's Courser | CR | 11 | 1 | 12 | 11.1 | 226 |
+| Species | Macaulay Library | Xeno-canto | Total recordings | Total audio (min) | Windows |
+|---|---|---|---|---|---|
+| Forest Owlet | 46 | 29 | 75 | 46.6 | 1,116 |
+| Banasura Laughingthrush | 71 | 3 | 74 | 37.3 | 976 |
+| Bugun Liocichla | 32 | 0 | 32 | 30.3 | 877 |
+| Jerdon's Courser | 11 | 1 | 12 | 11.1 | 226 |
 
 ### Data processing
 
-Every file was assigned its archive catalogue identifier, and its provenance (species, source archive, Xeno-canto quality grade, duration, and sample rate) was recorded in a manifest that serves as the single source of truth for all downstream processing. Duplicate detection used both catalogue identifiers and SHA-256 hashes of the file contents. Six byte-identical duplicates were found and removed, including recordings present in both archives under different catalogue numbers. This audit step matters because duplicated audio can otherwise occupy both the training and the evaluation side of a split without being noticed. After deduplication the dataset contained 193 unique recordings totalling approximately 125 minutes, and no audio was duplicated or multiplied at any later stage of the pipeline.
+Every file was assigned its archive catalogue identifier, and its provenance (species, source archive, Xeno-canto quality grade, duration, and sample rate) was recorded in a manifest. After deduplication using both archive identifiers and SHA-256 hashes of the recordings, the dataset contained 193 unique recordings totalling approximately 125 minutes (Figure 1).
 
-Each recording was decoded to mono 48 kHz audio and segmented into windows of three seconds with 50% overlap, matching the native analysis window of BirdNET. Each window was scored for vocal activity using its spectral energy in the 150 Hz to 11 kHz band relative to the noise floor of its own recording, estimated as the tenth percentile of frame energy. Windows at least 3 dB above the floor were retained, and every recording was guaranteed to contribute at least its highest-scoring window so that no recording dropped out of the dataset. This produced 3,195 analysis windows distributed as shown in Table 1. Segmenting recordings into windows uses the full duration of long recordings and gives all recordings a common analysis unit, whereas representing each recording by a single image would discard most of the available audio (Figure 1 and Figure 2).
+Each recording was decoded to mono 48 kHz audio and segmented into windows of three seconds with 50% overlap, matching the native analysis window commonly used by classifier systems like BirdNET. Each window was scored for vocal activity using its spectral energy in the 150 Hz to 11 kHz band relative to the noise floor of its own recording, estimated as the tenth percentile of frame energy. Windows at least 3 dB above the floor were retained, and every recording was guaranteed to contribute at least its highest-scoring window so that no recording dropped out of the dataset (Figure 2).
 
 ![Figure 1: dataset overview](figures/f1_dataset.png)
 
@@ -49,7 +49,7 @@ Each recording was decoded to mono 48 kHz audio and segmented into windows of th
 
 ![Figure 2: example spectrograms](figures/f2_spectrograms.png)
 
-*Figure 2. Example three-second log-mel spectrogram windows for each species. The Jerdon's Courser example reflects the heavy tape noise of the historical source material.*
+*Figure 2. Example three-second log-mel spectrogram windows for each species.*
 
 Catalogue numbers encode provenance structure that the evaluation must respect. All 11 Macaulay Library recordings of Jerdon's Courser occupy one consecutive catalogue block (ML274533 to ML274543). These are the recordings made during the 2001 to 2002 surveys in Sri Lankamalleswara Wildlife Sanctuary (Jeganathan et al. 2002), and they therefore represent a single recording effort. To make such structure explicit for all species, we grouped recordings into recording events, defined as recordings of the same species from the same archive whose catalogue numbers lie within 1,000 of one another, as a proxy for same-session origin. These groups are the unit of splitting in the stricter evaluation scheme described next.
 
