@@ -42,15 +42,19 @@ def fig_dataset():
     w = w[w.kept]
     fig, axes = plt.subplots(1, 3, figsize=(11, 3.2))
     counts = m.groupby(["species", "source"]).size().unstack(fill_value=0).loc[SPECIES]
+    counts = counts.rename(columns={"ML": "Macaulay Library", "XC": "Xeno-canto"})
     counts.plot.bar(stacked=True, ax=axes[0], color=["#3b7dd8", "#e28f41"], width=0.7)
     axes[0].set_title("Unique recordings")
     axes[0].set_xlabel("")
+    axes[0].set_ylabel("Recordings")
     mins = (m.groupby("species").duration_s.sum() / 60).loc[SPECIES]
     axes[1].bar(range(4), mins, color="#5ba36b", width=0.7)
-    axes[1].set_title("Total audio (min)")
+    axes[1].set_title("Total audio")
+    axes[1].set_ylabel("Minutes")
     wcounts = w.groupby("species").size().loc[SPECIES]
     axes[2].bar(range(4), wcounts, color="#8e6bb5", width=0.7)
-    axes[2].set_title("Vocalization windows (3 s)")
+    axes[2].set_title("Vocalisation windows (3 s)")
+    axes[2].set_ylabel("Windows")
     for ax in axes:
         ax.set_xticks(range(4))
         ax.set_xticklabels([PRETTY[s] for s in SPECIES], rotation=0, fontsize=8)
@@ -65,9 +69,21 @@ def fig_spectrograms():
     mels = np.load(REPO / "data" / "mels.npy", mmap_mode="r")
     ids = list(np.load(REPO / "data" / "mels_ids.npy"))
     idx_of = {k: i for i, k in enumerate(ids)}
+    m = pd.read_csv(REPO / "data" / "manifest.csv")
+    dur_of = dict(zip(m.recording_id, m.duration_s))
     fig, axes = plt.subplots(1, 4, figsize=(12, 2.8))
     for ax, sp in zip(axes, SPECIES):
-        best = w[w.species == sp].sort_values("snr_db", ascending=False).iloc[0]
+        cand = w[w.species == sp].sort_values("snr_db", ascending=False).head(40)
+        # prefer windows fully inside the recording with strong tonal contrast
+        best_score, best = -1e9, None
+        for r in cand.itertuples():
+            if r.end_s > dur_of.get(r.recording_id, 1e9):
+                continue
+            S = mels[idx_of[f"{r.recording_id}|{r.window_idx}"]].astype(np.float32)
+            band = S[20:110]  # roughly 1 to 9 kHz
+            contrast = float(np.percentile(band, 97) - np.median(band))
+            if contrast > best_score:
+                best_score, best = contrast, r
         S = mels[idx_of[f"{best.recording_id}|{best.window_idx}"]].astype(np.float32)
         ax.imshow(S, origin="lower", aspect="auto", cmap="magma",
                   extent=[0, 3, 0, 12])
@@ -129,8 +145,21 @@ def fig_robustness():
     labels = ["Clean", "20", "10", "5", "0"]
     acc = [r[k]["accuracy"] for k in xs]
     f1 = [r[k]["macro_f1"] for k in xs]
+    lo, hi = [], []
+    rng = np.random.default_rng(0)
+    for k in xs:
+        yt = np.array(r[k].get("y_true", []))
+        yp = np.array(r[k].get("y_pred", []))
+        if len(yt):
+            boots = [(yt[i] == yp[i]).mean()
+                     for i in (rng.integers(0, len(yt), (2000, len(yt))))]
+            lo.append(acc[xs.index(k)] - np.percentile(boots, 2.5))
+            hi.append(np.percentile(boots, 97.5) - acc[xs.index(k)])
+        else:
+            lo.append(0)
+            hi.append(0)
     plt.figure(figsize=(4.6, 3.2))
-    plt.plot(labels, acc, "o-", label="Accuracy")
+    plt.errorbar(labels, acc, yerr=[lo, hi], fmt="o-", capsize=3, label="Accuracy")
     plt.plot(labels, f1, "s--", label="Macro-F1")
     plt.xlabel("Additive white noise SNR (dB)")
     plt.ylabel("Recording-level score")
@@ -170,7 +199,8 @@ def fig_attention():
     ax1.imshow(S, origin="lower", aspect="auto", cmap="magma",
                extent=[0, dur, 0, 12])
     ax1.set_ylabel("Mel freq (kHz)")
-    ax1.set_title(f"MIL attention — {rid} ({SPECIES[y]})", fontsize=10)
+    pretty = PRETTY[SPECIES[y]].replace("\n", " ")
+    ax1.set_title(f"MIL attention across recording {rid} ({pretty})", fontsize=10)
     ax2.bar(w.start_s + 1.5, w.att, width=2.6, color="#3b7dd8", alpha=0.85)
     ax2.set_xlabel("Time (s)")
     ax2.set_ylabel("Attention")
@@ -202,8 +232,8 @@ def fig_umap():
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 4.2))
     palette = dict(zip(SPECIES, sns.color_palette("colorblind", 4)))
-    for ax, data, title in [(axes[0], X, "BirdNET embeddings"),
-                            (axes[1], Xa, "After endemic-avifauna adaptation")]:
+    for ax, data, title in [(axes[0], X, "Raw BirdNET embeddings"),
+                            (axes[1], Xa, "After auxiliary-species adaptation")]:
         proj = umap.UMAP(n_neighbors=30, min_dist=0.25, random_state=1).fit_transform(data)
         for sp in SPECIES:
             m = labels == sp

@@ -1,0 +1,141 @@
+{
+ "channel_negatives": {
+  "n_ambient_windows": 197,
+  "pred_fraction": {
+   "JerdonsCourser": 0.8781725888324873,
+   "BanasuraLaughingthrush": 0.005076142131979695,
+   "ForestOwlet": 0.116751269035533
+  },
+  "mean_jc_prob": 0.8461792695319498,
+  "frac_called_jc": 0.8781725888324873
+ },
+ "cross_archive_screen": {
+  "n_pairs": 1558,
+  "max_similarity": 0.9999668002128601,
+  "top5": [
+   {
+    "species": "BanasuraLaughingthrush",
+    "xc": "XC545768",
+    "ml": "ML223541561",
+    "max_cos": 1.0
+   },
+   {
+    "species": "BanasuraLaughingthrush",
+    "xc": "XC826432",
+    "ml": "ML608349451",
+    "max_cos": 1.0
+   },
+   {
+    "species": "ForestOwlet",
+    "xc": "XC722042",
+    "ml": "ML444347781",
+    "max_cos": 1.0
+   },
+   {
+    "species": "BanasuraLaughingthrush",
+    "xc": "XC826431",
+    "ml": "ML608349453",
+    "max_cos": 1.0
+   },
+   {
+    "species": "ForestOwlet",
+    "xc": "XC758846",
+    "ml": "ML491949651",
+    "max_cos": 0.999
+   }
+  ],
+  "n_above_0.95": 9
+ },
+ "cluster_bootstrap_probe": {
+  "n_events": 117,
+  "acc_ci95": [
+   0.950493934528588,
+   0.9945652173913043
+  ],
+  "macro_f1_ci95": [
+   0.7254723803503909,
+   0.9947938657852808
+  ]
+ },
+ "events_per_species": {
+  "ForestOwlet": 55,
+  "BanasuraLaughingthrush": 38,
+  "BugunLiocichla": 22,
+  "JerdonsCourser": 2
+ },
+ "event_threshold_sensitivity": {
+  "200": 128,
+  "500": 123,
+  "1000": 117,
+  "2000": 107,
+  "5000": 97
+ },
+ "openset_repeated": {
+  "per_split": [
+   {
+    "seed": 11,
+    "target_acc": 0.8908677098150782,
+    "fa": 0.13366093366093365
+   },
+   {
+    "seed": 21,
+    "target_acc": 0.9109886201991465,
+    "fa": 0.12384519350811488
+   },
+   {
+    "seed": 31,
+    "target_acc": 0.905583214793741,
+    "fa": 0.1654320987654321
+   },
+   {
+    "seed": 41,
+    "target_acc": 0.8857254623044097,
+    "fa": 0.13182359952324196
+   },
+   {
+    "seed": 51,
+    "target_acc": 0.8704836415362731,
+    "fa": 0.09683397683397683
+   }
+  ],
+  "target_acc_mean_sd": [
+   0.8927297297297297,
+   0.014463847895383358
+  ],
+  "fa_mean_sd": [
+   0.13031916045833988,
+   0.021952307359478906
+  ],
+  "per_species_fa_top": {
+   "AshambuLaughingthrush": 0.5863636363636363,
+   "NilgiriLaughingthrush": 0.5823529411764705,
+   "NicobarBulbul": 0.45,
+   "NagaWren": 0.4,
+   "AndamanSerpent": 0.34249999999999997,
+   "AndamanCuckooshrike": 0.325,
+   "NicobarScops": 0.31999999999999995,
+   "PalaniLaughingthrush": 0.2817391304347826,
+   "NicobarJungleFlycatcher": 0.24,
+   "AndamanWoodpecker": 0.14705882352941174
+  },
+  "congeners": {
+   "PalaniLaughingthrush": 0.2817391304347826,
+   "NilgiriLaughingthrush": 0.5823529411764705,
+   "AshambuLaughingthrush": 0.5863636363636363,
+   "NilgiriSholakili": 0.07028985507246377
+  }
+ },
+ "birdnet_fo_reference": {
+  "n_fo_recordings": 75,
+  "recall_at_0.5": 0.5333333333333333,
+  "recall_at_0.25": 0.68,
+  "recall_at_0.1": 0.7466666666666667,
+  "nontarget_over_0.5": 0.0,
+  "mean_window_conf_on_true": 0.16764314472675323
+ },
+ "attention_snr_spearman": {
+  "rho": -0.12015733530266677,
+  "p": 7.533612022646037e-10,
+  "n": 2607
+ }
+}

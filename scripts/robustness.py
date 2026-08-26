@@ -89,7 +89,9 @@ def main():
         y_t, y_p = np.array(d["y_true"]), np.array(d["y_pred"])
         m = metrics(y_t, y_p)
         summary[key] = {"accuracy": m["accuracy"], "macro_f1": m["macro_f1"],
-                        "n": int(len(y_t))}
+                        "n": int(len(y_t)),
+                        "y_true": [int(v) for v in y_t],
+                        "y_pred": [int(v) for v in y_p]}
         print(f"SNR {key:>5}: acc={m['accuracy']:.3f} macroF1={m['macro_f1']:.3f}")
 
     with open(REPO / "results" / "robustness.json", "w") as f:
