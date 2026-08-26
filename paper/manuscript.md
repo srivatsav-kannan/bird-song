@@ -41,7 +41,7 @@ All available recordings of the four species were obtained from the Macaulay Lib
 
 Every file was assigned its archive catalogue identifier, and its provenance (species, source archive, Xeno-canto quality grade, duration, and sample rate) was recorded in a manifest. After deduplication using both archive identifiers and SHA-256 hashes of the recordings, the dataset contained 193 unique recordings totalling approximately 125 minutes (Figure 1).
 
-Each recording was decoded to mono 48 kHz audio and segmented into windows of three seconds with 50% overlap, matching the native analysis window commonly used by classifier systems like BirdNET. Each window was scored for vocal activity using its spectral energy in the 150 Hz to 11 kHz band relative to the noise floor of its own recording, estimated as the tenth percentile of frame energy. Windows at least 3 dB above the floor were retained, and every recording was guaranteed to contribute at least its highest-scoring window so that no recording dropped out of the dataset (Figure 2).
+Each recording was decoded to mono 48 kHz audio and segmented into windows of three seconds with 50% overlap, matching the native analysis window commonly used by classifier systems like BirdNET (Kahl et al. 2021). Each window was scored for vocal activity using its spectral energy in the 150 Hz to 11 kHz band relative to the noise floor of its own recording, estimated as the tenth percentile of frame energy. Windows at least 3 dB above the floor were retained, and every recording was guaranteed to contribute at least its highest-scoring window so that no recording dropped out of the dataset (Figure 2).
 
 ![Figure 1: dataset overview](figures/f1_dataset.png)
 
