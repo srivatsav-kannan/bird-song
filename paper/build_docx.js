@@ -10,8 +10,8 @@ const {
   HeadingLevel, AlignmentType, WidthType, BorderStyle, TableLayoutType,
 } = require("docx");
 
-const MD = path.join(__dirname, "manuscript.md");
-const OUT = path.join(__dirname, "manuscript.docx");
+const MD = process.argv[2] || path.join(__dirname, "manuscript.md");
+const OUT = process.argv[3] || MD.replace(/\.md$/, ".docx");
 const FIGDIR = __dirname;
 
 const IMG_DIMS = {
