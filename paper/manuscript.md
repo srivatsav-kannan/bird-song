@@ -6,7 +6,7 @@
 
 ## Summary
 
-Automated acoustic monitoring is one of the few practical ways to survey rare and cryptic birds, but it depends on software that can recognise the target species, and the global classifiers that power most such monitoring do not cover the species that need it most. Four bird species endemic to India and listed as Endangered or Critically Endangered have sound recordings in public archives, the Forest Owlet, the Banasura Laughingthrush, the Bugun Liocichla, and Jerdon's Courser, yet only the Forest Owlet is recognised by BirdNET, the most widely used bird sound classifier. We gathered every public recording of these four species from the Macaulay Library and Xeno-canto, 193 unique recordings totalling approximately 125 minutes, and tested whether this material is sufficient to train reliable classifiers. Classifiers were trained on acoustic embeddings extracted with BirdNET and were evaluated on a held-out set of recordings that had played no part in training or model tuning. The best classifier identified the correct species for 97.4% of recordings (95% confidence interval 94.8 to 99.5), and its accuracy fell only to 92.2% when the test audio was degraded with synthetic noise as loud as the original recording itself. Because a classifier deployed in the field must also ignore the many species it was never trained on, we further tested the system against 1,891 recordings of 28 other Indian endemic species. By adding a rejection category trained on recordings of other species to the model, we reduce the false positive rate to just 13.4% while still identifying 89.1% of target recordings correctly. As a result, we conclude that reliable classifiers can be developed using publicly available data to aid in the monitoring of endangered birds.
+Automated acoustic monitoring is one of the few practical ways to survey rare and cryptic birds, but it depends on software that can recognise the target species, and the global classifiers that power most such monitoring do not cover the species that need it most. Four bird species endemic to India and listed as Endangered or Critically Endangered have sound recordings in public archives, the Forest Owlet, the Banasura Laughingthrush, the Bugun Liocichla, and Jerdon's Courser, yet only the Forest Owlet is recognised by BirdNET, the most widely used bird sound classifier. We gathered every public recording of these four species from the Macaulay Library and Xeno-canto, 193 unique recordings totalling approximately 125 minutes, and tested whether this material is sufficient to train reliable classifiers. Classifiers were trained on acoustic embeddings extracted with BirdNET and were evaluated on a held-out set of recordings that had played no part in training or model tuning. The best classifier identified the correct species for 97.4% of recordings (95% confidence interval 94.8 to 99.5), and its accuracy fell only to 92.2% when the test audio was degraded with synthetic noise as loud as the original recording itself. Because a classifier deployed in the field must also ignore the many species it was never trained on, we further tested the system against 1,891 recordings of 28 other Indian endemic species. By adding to the model a rejection category trained on recordings of other species, we reduced the false positive rate to 13.4% while still identifying 89.1% of target recordings correctly. As a result, we conclude that reliable classifiers can be developed using publicly available data to aid in the monitoring of endangered birds.
 
 **Keywords:** *Athene blewitti*, *Montecincla jerdoni*, *Liocichla bugunorum*, *Rhinoptilus bitorquatus*, passive acoustic monitoring, transfer learning, open-set recognition
 
@@ -14,7 +14,7 @@ Automated acoustic monitoring is one of the few practical ways to survey rare an
 
 India is home to over 1,300 bird species, of which more than 75 are considered endemic, occurring nowhere else in the world (SoIB 2023). Endemic species with narrow geographic ranges are disproportionately vulnerable to habitat loss (Myers et al. 2000), and several Indian endemics are now assessed as Endangered or Critically Endangered on the IUCN Red List (IUCN 2025). While rarely spotted in the wild, four such species have sound recordings available in the major public archives: Forest Owlet (*Athene blewitti*), Banasura Laughingthrush (*Montecincla jerdoni*), Bugun Liocichla (*Liocichla bugunorum*), and Jerdon's Courser (*Rhinoptilus bitorquatus*).
 
-These four species are natural candidates for passive acoustic monitoring (Sugai et al. 2019). They are nocturnal or skulking, occupy terrain where visual survey is difficult, and have distinctive vocalisations, and automated recorders have already been deployed to search for one of them, Jerdon's Courser (Arvind et al. 2023). Acoustic monitoring at useful scales, however, requires automated identification, because continuous recorders produce far more audio than observers can review (Gibb et al. 2019). The classifiers that currently dominate applied bioacoustics cannot provide this identification for these species. We verified that only the Forest Owlet is present in the label set of BirdNET V2.4 (Kahl et al. 2021), the most widely used bird song classification system (Pérez-Granados 2023), and the other three species therefore cannot be detected by it at any confidence threshold. As a result, there exists a need for classifiers specifically trained to identify these four species.
+These four species are natural candidates for passive acoustic monitoring (Sugai et al. 2019). They are elusive, occupy terrain where visual survey is difficult, and have distinctive vocalisations. Automated recorders have already been deployed to search for one of them, Jerdon's Courser (Arvind et al. 2023). Acoustic monitoring at useful scales, however, requires automated identification, because continuous recorders produce far more audio than observers can review (Gibb et al. 2019). The classifiers that currently dominate applied bioacoustics cannot provide this identification for these species. We verified that only the Forest Owlet is present in the label set of BirdNET V2.4 (Kahl et al. 2021), the most widely used bird song classification system (Pérez-Granados 2023), and the other three species therefore cannot be detected by it at any confidence threshold. As a result, there exists a need for classifiers specifically trained to identify these four species.
 
 However, training classifiers for endangered species with a limited number of recordings presents multiple methodological difficulties. The complete public record of these four species ranges from just 12 to 75 recordings per species. Datasets this small cannot support training conventional deep networks, so we instead build on acoustic embeddings from a large pretrained bird sound model, which transfer to small datasets far more effectively (Ghani et al. 2023).
 
@@ -24,7 +24,7 @@ The study comprises four analyses. First, we compare three classifier families o
 
 ### Data sources
 
-We filtered the IUCN Red List for bird species endemic to India and listed as Endangered or Critically Endangered. Seven species qualified, of which the Great Nicobar Serpent Eagle (*Spilornis klossi*), the Himalayan Quail (*Ophrysia superciliosa*), and the Manipur Bush Quail (*Perdicula manipurensis*) had no usable recordings. The remaining four species listed in Table 1 form the study set.
+We filtered the IUCN Red List (IUCN 2025) for bird species endemic to India and listed as Endangered or Critically Endangered. Seven species qualified, of which the Great Nicobar Serpent Eagle (*Spilornis klossi*), the Himalayan Quail (*Ophrysia superciliosa*), and the Manipur Bush Quail (*Perdicula manipurensis*) had no usable recordings. The remaining four species listed in Table 1 form the study set.
 
 All available recordings of the four species were obtained from the Macaulay Library and Xeno-canto.
 
@@ -41,7 +41,7 @@ All available recordings of the four species were obtained from the Macaulay Lib
 
 Every file was assigned its archive catalogue identifier, and its provenance (species, source archive, Xeno-canto quality grade, duration, and sample rate) was recorded in a manifest. After deduplication using both archive identifiers and SHA-256 hashes of the recordings, the dataset contained 193 unique recordings totalling approximately 125 minutes (Figure 1).
 
-Each recording was decoded to mono 48 kHz audio and segmented into windows of three seconds with 50% overlap, matching the native analysis window commonly used by classifier systems like BirdNET (Kahl et al. 2021). Each window was scored for vocal activity using its spectral energy in the 150 Hz to 11 kHz band relative to the noise floor of its own recording, estimated as the tenth percentile of frame energy. Windows at least 3 dB above the floor were retained, and every recording was guaranteed to contribute at least its highest-scoring window so that no recording dropped out of the dataset (Figure 2).
+Each recording was decoded to mono 48 kHz audio and segmented into windows of three seconds with 50% overlap, matching the native analysis window commonly used by classifier systems such as BirdNET (Kahl et al. 2021). Each window was scored for vocal activity using its spectral energy in the 150 Hz to 11 kHz band relative to the noise floor of its own recording, estimated as the tenth percentile of frame energy. Windows at least 3 dB above the floor were retained, and every recording was guaranteed to contribute at least its highest-scoring window so that no recording dropped out of the dataset (Figure 2).
 
 ![Figure 1: dataset overview](figures/f1_dataset.png)
 
@@ -65,7 +65,7 @@ Every experiment was repeated with three random seeds, and we report seed-averag
 
 The first model is a fine-tuned convolutional network representing standard practice in bioacoustic classification (Stowell 2022). An EfficientNet-B0 (Tan and Le 2019) initialised from ImageNet weights (Deng et al. 2009) was fine-tuned end to end on log-mel spectrograms of the three-second windows (128 mel bands, 32 kHz sample rate, 12 kHz frequency cap), with time and frequency masking (Park et al. 2019), gain jitter, circular time shifting, and white noise injection applied to training data only. Model selection followed the same inner-validation protocol as all other models.
 
-The second model classifies foundation model embeddings. Each window was encoded by BirdNET V2.4, with its weights frozen, into a 1,024-dimensional embedding, which is a compact numerical summary of the acoustic content of the window learnt by BirdNET during its training on several thousand species. A two-layer feed-forward network with layer normalisation and dropout classified individual windows, and recording-level predictions were obtained by averaging window probabilities within each recording. We refer to this model as the embedding probe.
+The second model classifies foundation model embeddings. Each window was encoded by BirdNET V2.4, with its weights frozen, into a 1,024-dimensional embedding, a compact numerical summary of the window's acoustic content learnt during BirdNET's training on several thousand species. A two-layer feed-forward network with layer normalisation and dropout classified individual windows, and recording-level predictions were obtained by averaging window probabilities within each recording. We refer to this model as the embedding probe.
 
 The third model applies multiple instance learning (MIL). A recording is treated as a bag of its window embeddings, and a gated attention mechanism (Ilse et al. 2018) assigns each window a weight, forms the weighted sum of the encoded windows, and classifies the recording in one step. This makes the recording the native decision unit, and because the attention weights are inspectable, the model shows which seconds of audio contributed to each decision.
 
@@ -75,7 +75,7 @@ Finally, we evaluated equal-weight soft-vote ensembles of the models above.
 
 ### Open-set recognition
 
-A classifier with four output classes will assign one of those four labels to every input it receives, including recordings of species it has never seen (Scheirer et al. 2013). A model can therefore be highly accurate on the four target species and still be unusable in the field, where most sounds come from other species. We evaluated two approaches to solve this problem, using the 1,891 recordings of the 28 auxiliary species as realistic non-target material.
+A classifier with four output classes will assign one of those four labels to every input it receives, including recordings of species it has never seen (Scheirer et al. 2013). A model can therefore be highly accurate on the four target species and still be unusable in the field, where most sounds come from other species. We evaluated two approaches to this problem, using the 1,891 recordings of the 28 auxiliary species as realistic non-target material.
 
 The first approach uses the classifier's own confidence (Hendrycks and Gimpel 2017). For every window, the probe outputs a probability for each of the four species, the highest of the four serves as a confidence score, and recordings scoring below a minimum threshold are rejected. The threshold was calibrated on validation data alone, as the highest value retaining at least 95% of validation recordings. Overall separation between target and non-target recordings was summarised with the area under the ROC curve.
 
@@ -89,7 +89,7 @@ Archive recordings are mostly focal recordings made at close range, whereas auto
 
 ### Identification of the four target species
 
-Table 2 reports recording-level performance under the primary scheme, and Table 3 reports per-class metrics for the strongest single model. The embedding probe achieved 97.4% accuracy (95% CI 94.8 to 99.5, macro-F1 0.973 with CI 0.938 to 0.996) over all 193 recordings, and the attention-MIL model achieved 96.4% (CI 93.8 to 99.0, macro-F1 0.964). Accuracy varied by at most half a percentage point across seeds for both models. The fine-tuned convolutional network reached 83.4% (CI 77.7 to 88.6, macro-F1 0.826) with roughly four times the seed variance. Exact McNemar tests found the probe clearly superior to the network, with 30 recordings correct only under the probe against three correct only under the network (p = 1.4 × 10⁻⁶), and similarly for the MIL model (29 against four, p = 1.1 × 10⁻⁵), while the probe and the MIL model did not differ significantly from each other (p = 0.69). We attribute the gap to data scale, since roughly 150 training recordings remain too few for end-to-end fine-tuning even with regularisation and augmentation, whereas the frozen embeddings already encode most of the discriminative information.
+Table 2 reports recording-level performance under the primary scheme, and Table 3 reports per-class metrics for the strongest single model. The embedding probe achieved 97.4% accuracy (95% CI 94.8 to 99.5, macro-F1 0.973 with CI 0.938 to 0.996) over all 193 recordings, and the attention-MIL model achieved 96.4% (CI 93.8 to 99.0, macro-F1 0.964). Accuracy varied by at most half a percentage point across seeds for both models. The fine-tuned convolutional network reached 83.4% (CI 77.7 to 88.6, macro-F1 0.826) with five times the seed variance of the probe. Exact McNemar tests found the probe significantly more accurate than the network, with 30 recordings correct only under the probe against three correct only under the network (p = 1.4 × 10⁻⁶), and similarly for the MIL model (29 against four, p = 1.1 × 10⁻⁵), while the probe and the MIL model did not differ significantly from each other (p = 0.69). We attribute the gap to data scale, since roughly 150 training recordings remain too few for end-to-end fine-tuning even with regularisation and augmentation, whereas the frozen embeddings already encode most of the discriminative information.
 
 **Table 2.** Recording-level performance under the primary scheme, five-fold cross-validation over all 193 unique recordings, with bootstrap 95% confidence intervals and the standard deviation of accuracy across three seeds. Soft votes average member probabilities with equal weights.
 
@@ -184,6 +184,14 @@ The complete public acoustic record of the four Endangered and Critically Endang
 
 We thank the recordists whose deposits in the Macaulay Library and Xeno-canto make work on these species possible.
 
+## Financial support
+
+This research received no specific grant from any funding agency or commercial or not-for-profit sector.
+
+## Competing interests
+
+The authors declare none.
+
 ## Data and code availability
 
 All code, the recording manifest with every Macaulay Library and Xeno-canto catalogue identifier, the split definitions, and the result files are available at https://github.com/srivatsav-kannan/bird-song. Audio is not redistributed, in accordance with archive terms, and the manifest permits exact reconstruction of the dataset from the source archives.
@@ -206,7 +214,7 @@ Hendrycks, D. and Gimpel, K. (2017). A baseline for detecting misclassified and 
 
 Ilse, M., Tomczak, J.M. and Welling, M. (2018). Attention-based deep multiple instance learning. *Proceedings of the 35th International Conference on Machine Learning*, 2127–2136.
 
-IUCN (2025). *The IUCN Red List of Threatened Species*. https://www.iucnredlist.org (accessed 2026).
+IUCN (2025). *The IUCN Red List of Threatened Species*. https://www.iucnredlist.org (accessed 26 August 2026).
 
 Jeganathan, P., Green, R.E., Bowden, C.G.R., Norris, K., Pain, D. and Rahmani, A. (2002). Use of tracking strips and automatic cameras for detecting Critically Endangered Jerdon's coursers *Rhinoptilus bitorquatus* in scrub jungle in Andhra Pradesh, India. *Oryx* 36, 182–188.
 
@@ -226,7 +234,7 @@ Pérez-Granados, C. (2023). BirdNET: applications, performance, pitfalls and fut
 
 Scheirer, W.J., de Rezende Rocha, A., Sapkota, A. and Boult, T.E. (2013). Toward open set recognition. *IEEE Transactions on Pattern Analysis and Machine Intelligence* 35, 1757–1772.
 
-Search for Lost Birds (2025). Jerdon's Courser. https://searchforlostbirds.org/birds/jerdons-courser (accessed 2026).
+Search for Lost Birds (2025). Jerdon's Courser. https://searchforlostbirds.org/birds/jerdons-courser (accessed 26 August 2026).
 
 SoIB (2023). *State of India's Birds, 2023: Range, Trends, and Conservation Status*. Zenodo. https://doi.org/10.5281/zenodo.11124590.
 
