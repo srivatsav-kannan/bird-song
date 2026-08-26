@@ -13,3 +13,4 @@ data/embeddings.npz
 data/aux_embeddings.npz
 results/preds/
 results/*.pt
+paper/submission/
