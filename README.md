@@ -30,7 +30,6 @@ src/birdsong/           audio decoding, windowing, features, models, evaluation
 scripts/                one script per pipeline step, in run order below
 data/                   recording manifest, window index, CV splits
 results/                metrics, open-set and robustness results
-legacy/                 the pre-rewrite pipeline, kept for reference
 ```
 
 ## Reproducing the results
