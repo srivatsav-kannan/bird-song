@@ -186,7 +186,7 @@ We thank the recordists whose deposits in the Macaulay Library and Xeno-canto ma
 
 ## Data and code availability
 
-All code, the recording manifest with every Macaulay Library and Xeno-canto catalogue identifier, the split definitions, and the result files are available at https://github.com/srivatsav-kannan/birdSong. Audio is not redistributed, in accordance with archive terms, and the manifest permits exact reconstruction of the dataset from the source archives.
+All code, the recording manifest with every Macaulay Library and Xeno-canto catalogue identifier, the split definitions, and the result files are available at https://github.com/srivatsav-kannan/bird-song. Audio is not redistributed, in accordance with archive terms, and the manifest permits exact reconstruction of the dataset from the source archives.
 
 ## References
 
